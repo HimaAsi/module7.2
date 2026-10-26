@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 07.2 - CVs, Letters, Reports & Templates</title>
+    <style>
+        /* ======================================================= */
+        /* CORE STYLES (Light Blue Theme & Enhanced Typography)    */
+        /* ======================================================= */
+        :root { 
+            --bg-color: #e0f2fe; 
+            --primary: #0ea5e9; 
+            --accent: #e11d48; 
+            --whatsapp: #16a34a; 
+            --text-main: #000000; 
+            --text-muted: #334155; 
+            --panel-bg: rgba(255, 255, 255, 0.95); 
+            --gold: #d97706; 
+            --cyan: #0891b2; 
+            --purple: #7e22ce; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; user-select: none; }
+        html { font-size: 16px; } 
+        @media (min-width: 1920px) { html { font-size: 20px; } } 
+        @media (min-width: 2560px) { html { font-size: 26px; } } 
+        
+        body { background-color: var(--bg-color); color: var(--text-main); overflow: hidden; width: 100vw; height: 100vh; background-image: radial-gradient(circle at center, #f0f9ff 0%, #e0f2fe 100%); }
+        #presentation { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        .slide { position: absolute; width: 94%; max-width: 1650px; height: 88%; opacity: 0; transform: scale(0.95) translateY(20px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); display: flex; flex-direction: column; justify-content: center; pointer-events: none; overflow-y: auto; scrollbar-width: none; }
+        .slide::-webkit-scrollbar { display: none; } 
+        .slide.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+        
+        h1 { font-size: 3.8rem; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 4px 15px rgba(14, 165, 233, 0.2); font-weight: 800; line-height: 1.1;}
+        h2 { font-size: 2.2rem; margin-bottom: 25px; color: var(--text-muted); font-weight: 600; line-height: 1.3;} 
+        p, li { font-size: 1.4rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 15px; }
+        
+        .module-tag { display:inline-block; border: 1px solid var(--cyan); padding: 6px 20px; border-radius: 30px; font-weight: bold; letter-spacing: 1.5px; margin-bottom: 15px; font-size: 1rem; align-self: flex-start; background: rgba(8, 145, 178, 0.1); color: var(--cyan); text-transform: uppercase;}
+
+        .landscape-box { position: relative; width: 100%; height: 50vh; min-height: 400px; max-height: 650px; background: var(--panel-bg); border-radius: 20px; border: 1px solid #cbd5e1; margin-top: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); overflow: visible; flex-shrink: 0; }
+        .desc-box { margin-top: 25px; background: rgba(255, 255, 255, 0.95); border-left: 6px solid var(--primary); padding: 18px 30px; border-radius: 12px; height: auto; font-size: 1.4rem; line-height: 1.6; color: var(--text-main); opacity: 0; transition: opacity 0.5s; z-index: 50; position: relative; overflow: visible; display: block; box-shadow: 0 10px 20px rgba(0,0,0,0.05); font-weight: 600;}
+        
+        .context-split { display: flex; width: 100%; height: 100%; justify-content: space-around; align-items: stretch; position: relative; padding: 20px; gap: 20px; }
+        .context-zone { flex: 1; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 15px; display: flex; flex-direction: column; padding: 25px; position: relative; transition: all 0.5s; overflow-y: auto; overflow-x: hidden; scrollbar-width: none;}
+        .context-zone::-webkit-scrollbar { display: none; }
+        .cz-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; padding: 10px 25px; border-radius: 30px; z-index: 10; flex-shrink: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); align-self: center;}
+        
+        /* MOCKUP UI */
+        .doc-pro { background: white; border: 1px solid #cbd5e1; width: 100%; height: 100%; padding: 30px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: 'Times New Roman', Times, serif; color: #000; overflow-y: auto;}
+        .pro-section { opacity: 0; transform: translateY(10px); transition: all 0.5s ease-out; margin-bottom: 15px; display: none;}
+        .pro-section.show { opacity: 1; transform: translateY(0); display: block;}
+
+        /* CV */
+        .pro-name { font-size: 2rem; text-align: center; text-transform: uppercase; font-weight: normal; margin-bottom: 5px; letter-spacing: 1px;}
+        .pro-contact { font-size: 0.95rem; text-align: center; margin-bottom: 15px; }
+        .pro-heading { font-size: 1.1rem; text-transform: uppercase; font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 2px; margin-bottom: 8px;}
+        .pro-row { display: flex; justify-content: space-between; align-items: baseline; }
+        .pro-bold { font-weight: bold; font-size: 1rem;}
+        .pro-italic { font-style: italic; font-size: 1rem;}
+        .pro-date { font-size: 0.95rem; }
+        .pro-bullets { padding-left: 20px; margin-top: 5px; margin-bottom: 12px;}
+        .pro-bullets li { font-size: 0.95rem; line-height: 1.4; margin-bottom: 4px; padding-left: 5px;}
+
+        /* Letters */
+        .let-block { font-family: Arial, Helvetica, sans-serif; font-size: 0.95rem; line-height: 1.5; color: #1e293b; margin-bottom: 15px; }
+        .let-sender { font-weight: bold; margin-bottom: 15px; }
+        .let-date { margin-bottom: 15px; }
+        .let-recipient { margin-bottom: 20px; }
+        .let-body-p { margin-bottom: 12px; text-align: justify; }
+        .mod-align-center { margin-left: 50%; } 
+        .mod-indent { text-indent: 40px; margin-bottom: 12px; text-align: justify; }
+
+        /* Reports */
+        .rep-title { font-size: 1.8rem; font-weight: bold; text-align: center; margin-bottom: 5px; color: #0f172a; font-family: Arial, sans-serif;}
+        .rep-meta { font-size: 0.85rem; text-align: center; color: #64748b; margin-bottom: 20px; font-family: Arial, sans-serif; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;}
+        .rep-exec-box { background: #f8fafc; border-left: 4px solid var(--whatsapp); padding: 15px; margin-bottom: 20px; font-family: Arial, sans-serif;}
+        .rep-exec-title { font-weight: bold; font-size: 1rem; color: var(--whatsapp); margin-bottom: 5px; text-transform: uppercase;}
+        .rep-h1 { font-family: Arial, sans-serif; font-size: 1.2rem; font-weight: bold; color: #0f172a; margin-bottom: 8px;}
+        .rep-p { font-family: Arial, sans-serif; font-size: 0.95rem; line-height: 1.5; color: #334155; margin-bottom: 10px; text-align: justify;}
+        .rep-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-family: Arial, sans-serif; font-size: 0.9rem;}
+        .rep-table th { background: #e2e8f0; color: #0f172a; font-weight: bold; text-align: left; padding: 8px; border: 1px solid #cbd5e1;}
+        .rep-table td { padding: 8px; border: 1px solid #cbd5e1; color: #334155;}
+        
+        .status-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; color: white; text-transform: uppercase; letter-spacing: 0.5px;}
+        .bg-green { background-color: #16a34a; }
+        .bg-amber { background-color: #d97706; }
+        .bg-red { background-color: #e11d48; }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; font-family: Arial, sans-serif;}
+        .status-item { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;}
+        .risk-box { background: rgba(225, 29, 72, 0.05); border: 1px solid rgba(225, 29, 72, 0.2); padding: 12px; border-radius: 6px; margin-bottom: 15px; font-family: Arial, sans-serif;}
+        .risk-title { color: var(--accent); font-weight: bold; margin-bottom: 5px; font-size: 0.95rem;}
+        .chk-list { list-style: none; padding: 0; font-family: Arial, sans-serif;}
+        .chk-item { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 0.95rem; color: #334155;}
+        .chk-box { width: 16px; height: 16px; border: 2px solid #cbd5e1; border-radius: 3px; display: inline-block;}
+
+        /* Templates Specific UI */
+        .ph-box { border: 2px dashed #cbd5e1; background: rgba(226, 232, 240, 0.5); display: flex; align-items: center; padding: 8px 12px; margin-bottom: 15px; border-radius: 6px; transition: all 0.5s; font-family: Arial, sans-serif;}
+        .ph-box.filled { border-color: transparent; background: transparent; padding-left: 0;}
+        .ph-text { color: #64748b; font-style: italic; font-size: 1rem; transition: all 0.5s; }
+        .ph-box.filled .ph-text { color: #0f172a; font-style: normal; font-size: 1.05rem; line-height: 1.5;}
+        .ph-box.title-box { justify-content: center; height: 60px; }
+        .ph-box.title-box.filled { justify-content: flex-start; height: auto; padding-bottom: 5px; border-bottom: 2px solid #cbd5e1; border-radius: 0;}
+        .ph-box.filled #ph-title { color: var(--gold); font-size: 1.8rem; font-weight: bold; }
+        .ph-box.filled #ph-sub { color: #64748b; font-size: 0.9rem; font-weight: bold; }
+
+        /* Rules UI */
+        .rule-item { font-size: 1.25rem; color: #64748b; padding: 15px; margin-bottom: 12px; border-radius: 8px; transition: all 0.3s; border: 1px solid transparent; font-weight: 500;}
+        .rule-item.active-rule { color: #0891b2; background: rgba(8, 145, 178, 0.05); border-color: #0891b2; font-weight: 800; transform: translateX(10px); box-shadow: 0 4px 10px rgba(8, 145, 178, 0.1);}
+        .rule-item.purple-active { color: var(--purple); background: rgba(126, 34, 206, 0.05); border-color: var(--purple); font-weight: 800; transform: translateX(10px); box-shadow: 0 4px 10px rgba(126, 34, 206, 0.1);}
+        .rule-item.gold-active { color: var(--gold); background: rgba(217, 119, 6, 0.05); border-color: var(--gold); font-weight: 800; transform: translateX(10px); box-shadow: 0 4px 10px rgba(217, 119, 6, 0.1);}
+        .rule-item.green-active { color: var(--whatsapp); background: rgba(22, 163, 74, 0.05); border-color: var(--whatsapp); font-weight: 800; transform: translateX(10px); box-shadow: 0 4px 10px rgba(22, 163, 74, 0.1);}
+        .rule-item.blue-active { color: var(--primary); background: rgba(14, 165, 233, 0.05); border-color: var(--primary); font-weight: 800; transform: translateX(10px); box-shadow: 0 4px 10px rgba(14, 165, 233, 0.1);}
+
+    </style>
+</head>
+<body>
+
+    <div id="presentation" onclick="nextSlide()">
+        
+        <!-- SLIDE 0: TITLE SLIDE -->
+        <section class="slide active" id="slide-0" style="align-items: center; text-align: center; justify-content: center;">
+            <div style="max-width: 1100px; width: 100%;">
+                <h2 style="color: var(--accent); font-size: 1.6rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700;">Foundation Diploma in ICT</h2>
+                <h1 style="font-size: 4.5rem; margin-bottom: 5px; color: var(--primary);">Module 07</h1>
+                <p style="font-size: 2.4rem; color: var(--text-main); font-weight: 900; margin-bottom: 30px; letter-spacing: -0.5px;">Professional Documents & Word Processing</p>
+
+                <div id="module-list" style="background: white; border: 1px solid #cbd5e1; border-radius: 20px; padding: 25px 35px; text-align: left; margin-bottom: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.05);">
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="font-size: 1.5rem; margin-bottom: 12px; color: #000; font-weight: 800; display: flex; align-items: center; gap: 18px; background: rgba(14, 165, 233, 0.05); padding: 12px 15px; border-radius: 12px; border: 2px solid var(--primary); transform: scale(1.02); box-shadow: 0 5px 15px rgba(14, 165, 233, 0.1);">
+                            <span style="background: var(--primary); color: white; padding: 4px 12px; border-radius: 8px; font-weight: bold; font-size: 1.2rem; box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);">7.2</span> 
+                            CVs, letters, reports and templates
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 1: STRICT ATS CV BUILDER -->
+        <section class="slide" id="slide-1">
+            <div class="module-tag" style="background:rgba(8, 145, 178, 0.1); border-color: var(--cyan); color: var(--cyan);">7.2 PROFESSIONAL CV</div>
+            <h1 style="color: var(--cyan);">The Global Gold Standard</h1>
+            <h2>ATS-compliant, completely flat, strictly reverse-chronological.</h2>
+            
+            <div class="landscape-box" style="border-color: var(--cyan);">
+                <div class="context-split">
+                    <div class="context-zone" style="border-color: var(--cyan); background: white; flex: 0.4;">
+                        <div class="cz-title" style="background: rgba(8, 145, 178, 0.1); color: var(--cyan); border: 1px solid var(--cyan);">ATS Strict Rules</div>
+                        <ul style="list-style:none; padding:0; margin-top:10px; width: 100%;">
+                            <li id="rule-cv-1" class="rule-item">1. Standardized Contact Block</li>
+                            <li id="rule-cv-2" class="rule-item">2. No Columns / No Tables</li>
+                            <li id="rule-cv-3" class="rule-item">3. Exact Alignment Tracking</li>
+                            <li id="rule-cv-4" class="rule-item">4. Action-Metric Bullet Points</li>
+                        </ul>
+                    </div>
+                    <div class="context-zone" style="background: #cbd5e1; flex: 0.6; padding: 10px; border-color: var(--cyan);">
+                        <div class="doc-pro" id="cv-doc">
+                            <div id="cv-header" class="pro-section">
+                                <div class="pro-name">Amal Perera</div>
+                                <div class="pro-contact">Colombo, Sri Lanka | +94 77 123 4567 | amal.perera@email.com | linkedin.com/in/amal</div>
+                            </div>
+                            <div id="cv-skills" class="pro-section">
+                                <div class="pro-heading">Core Competencies</div>
+                                <p style="font-size: 0.95rem; line-height:1.5;">Network Administration, Active Directory, Cloud Infrastructure (AWS, Azure), IT Support, Hardware Troubleshooting.</p>
+                            </div>
+                            <div id="cv-exp" class="pro-section">
+                                <div class="pro-heading">Professional Experience</div>
+                                <div class="pro-row">
+                                    <div class="pro-bold">TechSolutions Pvt Ltd</div>
+                                    <div class="pro-date">Colombo, Sri Lanka</div>
+                                </div>
+                                <div class="pro-row">
+                                    <div class="pro-italic">Senior IT Support Specialist</div>
+                                    <div class="pro-date">Jan 2022 – Present</div>
+                                </div>
+                                <ul class="pro-bullets">
+                                    <li>Spearheaded the migration of 200+ users to Office 365, completing the project 2 weeks ahead of schedule.</li>
+                                    <li>Reduced average ticket resolution time by 24% through standardized workflows.</li>
+                                </ul>
+                            </div>
+                            <div id="cv-edu" class="pro-section">
+                                <div class="pro-heading">Education</div>
+                                <div class="pro-row">
+                                    <div class="pro-bold">IMA Campus</div>
+                                    <div class="pro-date">Malabe, Sri Lanka</div>
+                                </div>
+                                <div class="pro-row">
+                                    <div class="pro-italic">Foundation Diploma in ICT</div>
+                                    <div class="pro-date">Completed May 2021</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="desc-box" id="s1-desc" style="border-left-color: var(--cyan);">Click to strictly format the Contact Block...</div>
+        </section>
+
+        <!-- SLIDE 2: BUSINESS LETTER (FULL BLOCK) -->
+        <section class="slide" id="slide-2">
+            <div class="module-tag" style="background:rgba(126, 34, 206, 0.1); border-color: var(--purple); color: var(--purple);">7.2 BUSINESS LETTERS</div>
+            <h1 style="color: var(--purple);">Full Block Format</h1>
+            <h2>The modern standard: clean, professional, and entirely left-aligned.</h2>
+            
+            <div class="landscape-box" style="border-color: var(--purple);">
+                <div class="context-split">
+                    <div class="context-zone" style="border-color: var(--purple); background: white; flex: 0.4;">
+                        <div class="cz-title" style="background: rgba(126, 34, 206, 0.1); color: var(--purple); border: 1px solid var(--purple);">Full Block Rules</div>
+                        <ul style="list-style:none; padding:0; margin-top:10px; width: 100%;">
+                            <li id="rule-let-1" class="rule-item">1. Header Block (Left Aligned)</li>
+                            <li id="rule-let-2" class="rule-item">2. Formal Salutation</li>
+                            <li id="rule-let-3" class="rule-item">3. Single-Spaced Body</li>
+                            <li id="rule-let-4" class="rule-item">4. Left-Aligned Sign-off</li>
+                        </ul>
+                    </div>
+                    <div class="context-zone" style="background: #cbd5e1; flex: 0.6; padding: 10px; border-color: var(--purple);">
+                        <div class="doc-pro" id="let-doc" style="font-family: Arial, Helvetica, sans-serif;">
+                            <div id="let-header" class="pro-section let-block">
+                                <div class="let-sender">Amal Perera<br>123 Galle Road, Colombo 03<br>+94 77 123 4567</div>
+                                <div class="let-date">November 10, 2026</div>
+                                <div class="let-recipient">Mr. Nimal Silva<br>Director of IT Operations<br>TechSolutions Pvt Ltd</div>
+                            </div>
+                            <div id="let-salutation" class="pro-section let-block">Dear Mr. Silva,</div>
+                            <div id="let-body" class="pro-section let-block">
+                                <div class="let-body-p">I am writing to express my strong interest in the Senior IT Support position. With over three years of experience in network administration, I am confident in my ability to contribute to your team.</div>
+                                <div class="let-body-p">In my recent role, I spearheaded the migration of over 200 users to Office 365. I am eager to bring my problem-solving skills to TechSolutions.</div>
+                            </div>
+                            <div id="let-close" class="pro-section let-block">Sincerely,<br><br><br>Amal Perera</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="desc-box" id="s2-desc" style="border-left-color: var(--purple);">Click to format the Full Block Header...</div>
+        </section>
+
+        <!-- SLIDE 3: BUSINESS LETTER (MODIFIED BLOCK) -->
+        <section class="slide" id="slide-3">
+            <div class="module-tag" style="background:rgba(217, 119, 6, 0.1); border-color: var(--gold); color: var(--gold);">7.2 BUSINESS LETTERS</div>
+            <h1 style="color: var(--gold);">Modified Block Format</h1>
+            <h2>A traditional variation teaching exact tab and indent control.</h2>
+            
+            <div class="landscape-box" style="border-color: var(--gold);">
+                <div class="context-split">
+                    <div class="context-zone" style="border-color: var(--gold); background: white; flex: 0.4;">
+                        <div class="cz-title" style="background: rgba(217, 119, 6, 0.1); color: var(--gold); border: 1px solid var(--gold);">Modified Rules</div>
+                        <ul style="list-style:none; padding:0; margin-top:10px; width: 100%;">
+                            <li id="rule-mod-1" class="rule-item">1. Sender & Date Tabbed Right</li>
+                            <li id="rule-mod-2" class="rule-item">2. Recipient Left Aligned</li>
+                            <li id="rule-mod-3" class="rule-item">3. Indented Paragraphs</li>
+                            <li id="rule-mod-4" class="rule-item">4. Matching Tabbed Sign-off</li>
+                        </ul>
+                    </div>
+                    <div class="context-zone" style="background: #cbd5e1; flex: 0.6; padding: 10px; border-color: var(--gold);">
+                        <div class="doc-pro" id="mod-doc" style="font-family: 'Times New Roman', serif;">
+                            <div id="mod-header" class="pro-section let-block mod-align-center">
+                                <div class="let-sender" style="margin-bottom: 10px;">Kasun Fernando<br>45 Kandy Road, Yakkala<br>kasun.f@email.com</div>
+                                <div class="let-date">October 27, 2026</div>
+                            </div>
+                            <div id="mod-recipient" class="pro-section let-block">
+                                <div class="let-recipient">Mrs. Dushanthi Perera<br>Head of HR<br>Global Systems Corp</div>
+                                <div>Dear Mrs. Perera,</div>
+                            </div>
+                            <div id="mod-body" class="pro-section let-block">
+                                <div class="mod-indent">Please accept this letter as formal notification that I am resigning from my position as Systems Engineer, effective November 10, 2026.</div>
+                                <div class="mod-indent">I deeply appreciate the opportunities provided to me during my tenure. I am committed to ensuring a smooth transition.</div>
+                            </div>
+                            <div id="mod-close" class="pro-section let-block mod-align-center">Sincerely,<br><br><br>Kasun Fernando</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="desc-box" id="s3-desc" style="border-left-color: var(--gold);">Click to format the tabbed Header...</div>
+        </section>
+
+        <!-- SLIDE 4: BUSINESS REPORTS (ANALYTICAL) -->
+        <section class="slide" id="slide-4">
+            <div class="module-tag" style="background:rgba(22, 163, 74, 0.1); border-color: var(--whatsapp); color: var(--whatsapp);">7.2 BUSINESS REPORTS</div>
+            <h1 style="color: var(--whatsapp);">Analytical Reports</h1>
+            <h2>Designing complex documents for maximum readability.</h2>
+            
+            <div class="landscape-box" style="border-color: var(--whatsapp);">
+                <div class="context-split">
+                    <div class="context-zone" style="border-color: var(--whatsapp); background: white; flex: 0.4;">
+                        <div class="cz-title" style="background: rgba(22, 163, 74, 0.1); color: var(--whatsapp); border: 1px solid var(--whatsapp);">Report Rules</div>
+                        <ul style="list-style:none; padding:0; margin-top:10px; width: 100%;">
+                            <li id="rule-rep-1" class="rule-item">1. Title & Metadata</li>
+                            <li id="rule-rep-2" class="rule-item">2. Executive Summary</li>
+                            <li id="rule-rep-3" class="rule-item">3. Numbered Headings</li>
+                            <li id="rule-rep-4" class="rule-item">4. Data Presentation</li>
+                        </ul>
+                    </div>
+                    <div class="context-zone" style="background: #cbd5e1; flex: 0.6; padding: 10px; border-color: var(--whatsapp);">
+                        <div class="doc-pro" id="rep-doc">
+                            <div id="rep-header" class="pro-section">
+                                <div class="rep-title">Q3 IT Infrastructure Report</div>
+                                <div class="rep-meta">Prepared by: Amal Perera | Date: Oct 27, 2026 | Status: Confidential</div>
+                            </div>
+                            <div id="rep-exec" class="pro-section">
+                                <div class="rep-exec-box">
+                                    <div class="rep-exec-title">Executive Summary</div>
+                                    <div class="rep-p" style="margin-bottom:0; font-size: 0.9rem;">This report outlines the successful Q3 cloud migration project. Overall system latency was reduced by 15%, while operational costs remained within the approved budget.</div>
+                                </div>
+                            </div>
+                            <div id="rep-body" class="pro-section">
+                                <div class="rep-h1">1.0 Migration Overview</div>
+                                <div class="rep-p">The transition from on-premise servers to AWS was completed on September 15th. We experienced zero unplanned downtime.</div>
+                            </div>
+                            <div id="rep-data" class="pro-section">
+                                <div class="rep-h1" style="font-size: 1.1rem; margin-top: 10px;">1.1 Performance Metrics</div>
+                                <table class="rep-table">
+                                    <tr><th>Metric</th><th>Q2 (Before)</th><th>Q3 (After)</th></tr>
+                                    <tr><td>Avg. Latency</td><td>120ms</td><td style="color:var(--whatsapp); font-weight:bold;">85ms</td></tr>
+                                    <tr><td>Uptime</td><td>99.1%</td><td style="color:var(--whatsapp); font-weight:bold;">99.9%</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="desc-box" id="s4-desc" style="border-left-color: var(--whatsapp);">Click to add the Title and Metadata...</div>
+        </section>
+
+        <!-- SLIDE 5: BUSINESS REPORTS (STATUS / RAG) -->
+        <section class="slide" id="slide-5">
+            <div class="module-tag" style="background:rgba(14, 165, 233, 0.1); border-color: var(--primary); color: var(--primary);">7.2 BUSINESS REPORTS</div>
+            <h1 style="color: var(--primary);">Project Status Reports</h1>
+            <h2>Using RAG indicators for instant executive communication.</h2>
+            
+            <div class="landscape-box" style="border-color: var(--primary);">
+                <div class="context-split">
+                    <div class="context-zone" style="border-color: var(--primary); background: white; flex: 0.4;">
+                        <div class="cz-title" style="background: rgba(14, 165, 233, 0.1); color: var(--primary); border: 1px solid var(--primary);">Status Rules</div>
+                        <ul style="list-style:none; padding:0; margin-top:10px; width: 100%;">
+                            <li id="rule-rep2-1" class="rule-item">1. RAG Status Indicators</li>
+                            <li id="rule-rep2-2" class="rule-item">2. Milestone Tracking</li>
+                            <li id="rule-rep2-3" class="rule-item">3. Risk Assessment</li>
+                            <li id="rule-rep2-4" class="rule-item">4. Action Items</li>
+                        </ul>
+                    </div>
+                    <div class="context-zone" style="background: #cbd5e1; flex: 0.6; padding: 10px; border-color: var(--primary);">
+                        <div class="doc-pro" id="rep2-doc">
+                            <div class="rep-title" style="font-size: 1.6rem; text-align:left; border-bottom: 2px solid #0f172a; padding-bottom: 5px; margin-bottom: 15px;">Project Alpha: Monthly Update</div>
+                            <div id="rep2-rag" class="pro-section">
+                                <div class="rep-h1">Project Health Summary</div>
+                                <div class="status-grid">
+                                    <div class="status-item"><span>Overall Status:</span> <span class="status-badge bg-green">On Track</span></div>
+                                    <div class="status-item"><span>Budget:</span> <span class="status-badge bg-amber">At Risk</span></div>
+                                    <div class="status-item"><span>Schedule:</span> <span class="status-badge bg-green">On Time</span></div>
+                                    <div class="status-item"><span>Resources:</span> <span class="status-badge bg-green">Stable</span></div>
+                                </div>
+                            </div>
+                            <div id="rep2-miles" class="pro-section">
+                                <div class="rep-h1">Key Milestones</div>
+                                <table class="rep-table" style="margin-top: 5px; margin-bottom: 15px;">
+                                    <tr><th>Task</th><th>Deadline</th><th>Status</th></tr>
+                                    <tr><td>Server Provisioning</td><td>Oct 10</td><td style="color:#16a34a; font-weight:bold;">Completed</td></tr>
+                                    <tr><td>Database Migration</td><td>Oct 25</td><td style="color:#d97706; font-weight:bold;">In Progress</td></tr>
+                                </table>
+                            </div>
+                            <div id="rep2-risk" class="pro-section">
+                                <div class="risk-box">
+                                    <div class="risk-title">⚠️ Identified Risk: Budget Overrun</div>
+                                    <div class="rep-p" style="margin-bottom:0; font-size: 0.85rem;">Software licensing costs exceeded initial estimates by 5%. <b>Mitigation:</b> Renegotiating vendor contracts.</div>
+                                </div>
+                            </div>
+                            <div id="rep2-actions" class="pro-section">
+                                <div class="rep-h1">Next Steps / Action Items</div>
+                                <ul class="chk-list">
+                                    <li class="chk-item"><span class="chk-box"></span> Finalize vendor contract negotiations (Owner: Finance)</li>
+                                    <li class="chk-item"><span class="chk-box"></span> Complete user acceptance testing (Owner: QA Team)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="desc-box" id="s5-desc" style="border-left-color: var(--primary);">Click to add the RAG Status Indicators...</div>
+        </section>
+
+        <!-- SLIDE 6: CORPORATE TEMPLATES -->
+        <section class="slide" id="slide-6">
+            <div class="module-tag" style="background:rgba(217, 119, 6, 0.1); border-color: var(--gold); color: var(--gold);">7.2 TEMPLATES</div>
+            <h1 style="color: var(--gold);">Corporate Templates</h1>
+            <h2>Pre-designed, reusable layouts that enforce brand standards.</h2>
+            
+            <div class="landscape-box" style="border-color: var(--gold);">
+                <div class="context-split">
+                    <!-- Left: Template Rules -->
+                    <div class="context-zone" style="border-color: var(--gold); background: white; flex: 0.4;">
+                        <div class="cz-title" style="background: rgba(217, 119, 6, 0.1); color: var(--gold); border: 1px solid var(--gold);">Template Benefits</div>
+                        <ul style="list-style:none; padding:0; margin-top:10px; width: 100%;">
+                            <li id="rule-tpl-1" class="rule-item">1. Locked Brand Assets</li>
+                            <li id="rule-tpl-2" class="rule-item">2. Reusable Layouts</li>
+                            <li id="rule-tpl-3" class="rule-item">3. Smart Placeholders</li>
+                            <li id="rule-tpl-4" class="rule-item">4. Standardized Output</li>
+                        </ul>
+                    </div>
+
+                    <!-- Right: The Document -->
+                    <div class="context-zone" style="background: #cbd5e1; flex: 0.6; padding: 10px; border-color: var(--gold);">
+                        <div class="doc-pro" id="tpl-doc" style="background:#f8fafc; font-family: Arial, sans-serif;">
+                            
+                            <!-- Step 1: Locked Brand -->
+                            <div id="tpl-brand" class="pro-section" style="border-bottom: 3px solid var(--gold); padding-bottom: 10px; margin-bottom: 25px; display:flex; justify-content:space-between; align-items:center;">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <div style="width:30px; height:30px; background:var(--gold); border-radius:50%;"></div>
+                                    <div style="font-weight:900; font-size:1.3rem; color:#0f172a; letter-spacing:1px;">GLOBAL SYSTEMS</div>
+                                </div>
+                                <div style="font-size:0.8rem; color:#64748b; font-weight:bold;">CONFIDENTIAL INTERNAL</div>
+                            </div>
+
+                            <!-- Step 2: Layout / Title -->
+                            <div id="tpl-layout" class="pro-section">
+                                <div class="ph-box title-box" id="ph-box-1">
+                                    <span class="ph-text" id="ph-title">[Click here to enter Document Title]</span>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Placeholders -->
+                            <div id="tpl-placeholders" class="pro-section">
+                                <div class="ph-box" style="width: 50%;" id="ph-box-2">
+                                    <span class="ph-text" id="ph-sub">[Subtitle / Department]</span>
+                                </div>
+                                <div class="ph-box" style="min-height: 100px; align-items:flex-start;" id="ph-box-3">
+                                    <span class="ph-text" id="ph-body">[Type the executive summary here. The corporate font, line spacing, and paragraph indents are already configured globally.]</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="desc-box" id="s6-desc" style="border-left-color: var(--gold);">Click to load the locked corporate brand assets...</div>
+        </section>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        let isAnimating = false;
+        const sleepGlobal = ms => new Promise(r => setTimeout(r, ms));
+
+        // Data arrays
+        let s1Step = -1;
+        const s1Data = [
+            { txt: "🎯 <b style='color:var(--cyan);'>1. Contact Header:</b> Centered, standard font. Phone, email, and LinkedIn separated by standard pipes (|)." },
+            { txt: "🎯 <b style='color:var(--cyan);'>2. Flat Structure:</b> ATS software reads left-to-right, top-to-bottom. We strictly avoid tables or text boxes." },
+            { txt: "🎯 <b style='color:var(--cyan);'>3. Exact Alignment:</b> Company bolded. Title italicized. Location and Dates strictly flush right." },
+            { txt: "🎯 <b style='color:var(--cyan);'>4. Impact Bullets:</b> Start every bullet with an action verb. Follow up with hard numbers (200+ users, 24%)." }
+        ];
+
+        let s2Step = -1;
+        const s2Data = [
+            { txt: "✉️ <b style='color:var(--purple);'>1. The Header Block:</b> In 'Full Block Format', EVERYTHING aligns to the left margin. Clean and modern." },
+            { txt: "✉️ <b style='color:var(--purple);'>2. Formal Salutation:</b> Address a specific person if possible (Dear Mr. Silva,). " },
+            { txt: "✉️ <b style='color:var(--purple);'>3. The Body:</b> Paragraphs are single-spaced with NO indentations. Leave one blank line between each paragraph." },
+            { txt: "✉️ <b style='color:var(--purple);'>4. Professional Sign-off:</b> End with 'Sincerely,' followed by 3-4 blank lines, aligned completely to the left." }
+        ];
+
+        let s3Step = -1;
+        const s3Data = [
+            { txt: "📝 <b style='color:var(--gold);'>1. The Header:</b> In 'Modified Block Format', the sender's address and the date are tabbed to the center line." },
+            { txt: "📝 <b style='color:var(--gold);'>2. The Recipient:</b> The inside address and salutation remain strictly flush left." },
+            { txt: "📝 <b style='color:var(--gold);'>3. Indented Body:</b> Unlike Full Block, the first line of each paragraph is indented by 0.5 inches (using the Tab key)." },
+            { txt: "📝 <b style='color:var(--gold);'>4. Matching Sign-off:</b> The complimentary close and signature MUST align perfectly with the date above it." }
+        ];
+
+        let s4Step = -1;
+        const s4Data = [
+            { txt: "📊 <b style='color:var(--whatsapp);'>1. Title & Metadata:</b> Start with a clear, bold title. Always include the author, date, and document status." },
+            { txt: "📊 <b style='color:var(--whatsapp);'>2. Executive Summary:</b> A high-level overview placed at the very beginning for busy stakeholders." },
+            { txt: "📊 <b style='color:var(--whatsapp);'>3. Numbered Headings:</b> Use a hierarchical numbering system (1.0, 1.1) to make documents navigable." },
+            { txt: "📊 <b style='color:var(--whatsapp);'>4. Data Presentation:</b> Break up heavy text with clean, formatted tables or charts." }
+        ];
+
+        let s5Step = -1;
+        const s5Data = [
+            { txt: "📈 <b style='color:var(--primary);'>1. RAG Indicators:</b> Executives look for Red, Amber, Green tags first to gauge project health instantly." },
+            { txt: "📈 <b style='color:var(--primary);'>2. Milestone Tracking:</b> Use a clean progress table to show what's completed and what's pending." },
+            { txt: "📈 <b style='color:var(--primary);'>3. Risk Assessment:</b> Always highlight identified risks visually and pair them with clear mitigation strategies." },
+            { txt: "📈 <b style='color:var(--primary);'>4. Action Items:</b> End the report with actionable next steps assigned to specific teams or owners." }
+        ];
+
+        let s6Step = -1;
+        const s6Data = [
+            { txt: "🏢 <b style='color:var(--gold);'>1. Locked Brand Assets:</b> Templates secure the header, logos, and company colors so employees cannot accidentally alter them." },
+            { txt: "🏢 <b style='color:var(--gold);'>2. Reusable Layouts:</b> The structural framework (margins, title blocks) is already built, saving hours of manual setup." },
+            { txt: "🏢 <b style='color:var(--gold);'>3. Smart Placeholders:</b> Users are guided with 'Click and Type' fields that already contain the correct global styles." },
+            { txt: "🏢 <b style='color:var(--gold);'>4. Standardized Output:</b> When completed, every document across the company looks identical, ensuring a unified brand image." }
+        ];
+
+        // SLIDE MANAGER
+        function updateSlides() {
+            slides.forEach((slide, index) => { 
+                if (index === currentSlide) slide.classList.add('active'); 
+                else slide.classList.remove('active'); 
+            });
+
+            if (currentSlide === 1) { 
+                s1Step = -1; isAnimating = false; 
+                for(let i=1; i<=4; i++) { document.getElementById('rule-cv-'+i).classList.remove('active-rule'); }
+                document.getElementById('cv-header').classList.remove('show'); document.getElementById('cv-skills').classList.remove('show');
+                document.getElementById('cv-exp').classList.remove('show'); document.getElementById('cv-edu').classList.remove('show');
+                document.getElementById('s1-desc').innerHTML = "Click to strictly format the Contact Block..."; 
+            }
+            if (currentSlide === 2) { 
+                s2Step = -1; isAnimating = false; 
+                for(let i=1; i<=4; i++) { document.getElementById('rule-let-'+i).classList.remove('purple-active'); }
+                document.getElementById('let-header').classList.remove('show'); document.getElementById('let-salutation').classList.remove('show');
+                document.getElementById('let-body').classList.remove('show'); document.getElementById('let-close').classList.remove('show');
+                document.getElementById('s2-desc').innerHTML = "Click to format the Full Block Header..."; 
+            }
+            if (currentSlide === 3) { 
+                s3Step = -1; isAnimating = false; 
+                for(let i=1; i<=4; i++) { document.getElementById('rule-mod-'+i).classList.remove('gold-active'); }
+                document.getElementById('mod-header').classList.remove('show'); document.getElementById('mod-recipient').classList.remove('show');
+                document.getElementById('mod-body').classList.remove('show'); document.getElementById('mod-close').classList.remove('show');
+                document.getElementById('s3-desc').innerHTML = "Click to format the tabbed Header..."; 
+            }
+            if (currentSlide === 4) { 
+                s4Step = -1; isAnimating = false; 
+                for(let i=1; i<=4; i++) { document.getElementById('rule-rep-'+i).classList.remove('green-active'); }
+                document.getElementById('rep-header').classList.remove('show'); document.getElementById('rep-exec').classList.remove('show');
+                document.getElementById('rep-body').classList.remove('show'); document.getElementById('rep-data').classList.remove('show');
+                document.getElementById('s4-desc').innerHTML = "Click to add the Title and Metadata..."; 
+            }
+            if (currentSlide === 5) { 
+                s5Step = -1; isAnimating = false; 
+                for(let i=1; i<=4; i++) { document.getElementById('rule-rep2-'+i).classList.remove('blue-active'); }
+                document.getElementById('rep2-rag').classList.remove('show'); document.getElementById('rep2-miles').classList.remove('show');
+                document.getElementById('rep2-risk').classList.remove('show'); document.getElementById('rep2-actions').classList.remove('show');
+                document.getElementById('s5-desc').innerHTML = "Click to add the RAG Status Indicators..."; 
+            }
+            if (currentSlide === 6) { 
+                s6Step = -1; isAnimating = false; 
+                for(let i=1; i<=4; i++) { document.getElementById('rule-tpl-'+i).classList.remove('gold-active'); }
+                document.getElementById('tpl-brand').classList.remove('show'); document.getElementById('tpl-layout').classList.remove('show'); document.getElementById('tpl-placeholders').classList.remove('show');
+                document.getElementById('ph-box-1').classList.remove('filled'); document.getElementById('ph-box-2').classList.remove('filled'); document.getElementById('ph-box-3').classList.remove('filled');
+                document.getElementById('ph-title').innerText = "[Click here to enter Document Title]";
+                document.getElementById('ph-sub').innerText = "[Subtitle / Department]";
+                document.getElementById('ph-body').innerText = "[Type the executive summary here. The corporate font, line spacing, and paragraph indents are already configured globally.]";
+                document.getElementById('s6-desc').innerHTML = "Click to load the locked corporate brand assets..."; 
+            }
+        }
+
+        // ANIMATION FUNCTIONS
+        async function runCVStep() {
+            if (isAnimating) return; isAnimating = true; s1Step++; const desc = document.getElementById('s1-desc'); 
+            for(let i=1; i<=4; i++) { document.getElementById('rule-cv-'+i).classList.remove('active-rule'); }
+            if (s1Step === 0) { document.getElementById('rule-cv-1').classList.add('active-rule'); await sleepGlobal(200); document.getElementById('cv-header').classList.add('show');
+            } else if (s1Step === 1) { document.getElementById('rule-cv-2').classList.add('active-rule'); await sleepGlobal(200); document.getElementById('cv-skills').classList.add('show');
+            } else if (s1Step === 2) { document.getElementById('rule-cv-3').classList.add('active-rule'); await sleepGlobal(200); document.getElementById('cv-exp').classList.add('show');
+            } else if (s1Step === 3) { document.getElementById('rule-cv-4').classList.add('active-rule'); await sleepGlobal(200); document.getElementById('cv-edu').classList.add('show'); }
+            desc.style.opacity = 0; setTimeout(() => { desc.innerHTML = s1Data[s1Step].txt; desc.style.opacity = 1; isAnimating = false; }, 300); 
+        }
+
+        async function runLetterStep() {
+            if (isAnimating) return; isAnimating = true; s2Step++; const desc = document.getElementById('s2-desc'); 
+            for(let i=1; i<=4; i++) { document.getElementById('rule-let-'+i).classList.remove('purple-active'); }
+            if (s2Step === 0) { document.getElementById('rule-let-1').classList.add('purple-active'); await sleepGlobal(200); document.getElementById('let-header').classList.add('show');
+            } else if (s2Step === 1) { document.getElementById('rule-let-2').classList.add('purple-active'); await sleepGlobal(200); document.getElementById('let-salutation').classList.add('show');
+            } else if (s2Step === 2) { document.getElementById('rule-let-3').classList.add('purple-active'); await sleepGlobal(200); document.getElementById('let-body').classList.add('show');
+            } else if (s2Step === 3) { document.getElementById('rule-let-4').classList.add('purple-active'); await sleepGlobal(200); document.getElementById('let-close').classList.add('show'); }
+            desc.style.opacity = 0; setTimeout(() => { desc.innerHTML = s2Data[s2Step].txt; desc.style.opacity = 1; isAnimating = false; }, 300); 
+        }
+
+        async function runModLetterStep() {
+            if (isAnimating) return; isAnimating = true; s3Step++; const desc = document.getElementById('s3-desc'); 
+            for(let i=1; i<=4; i++) { document.getElementById('rule-mod-'+i).classList.remove('gold-active'); }
+            if (s3Step === 0) { document.getElementById('rule-mod-1').classList.add('gold-active'); await sleepGlobal(200); document.getElementById('mod-header').classList.add('show');
+            } else if (s3Step === 1) { document.getElementById('rule-mod-2').classList.add('gold-active'); await sleepGlobal(200); document.getElementById('mod-recipient').classList.add('show');
+            } else if (s3Step === 2) { document.getElementById('rule-mod-3').classList.add('gold-active'); await sleepGlobal(200); document.getElementById('mod-body').classList.add('show');
+            } else if (s3Step === 3) { document.getElementById('rule-mod-4').classList.add('gold-active'); await sleepGlobal(200); document.getElementById('mod-close').classList.add('show'); }
+            desc.style.opacity = 0; setTimeout(() => { desc.innerHTML = s3Data[s3Step].txt; desc.style.opacity = 1; isAnimating = false; }, 300); 
+        }
+
+        async function runReportStep() {
+            if (isAnimating) return; isAnimating = true; s4Step++; const desc = document.getElementById('s4-desc'); 
+            for(let i=1; i<=4; i++) { document.getElementById('rule-rep-'+i).classList.remove('green-active'); }
+            if (s4Step === 0) { document.getElementById('rule-rep-1').classList.add('green-active'); await sleepGlobal(200); document.getElementById('rep-header').classList.add('show');
+            } else if (s4Step === 1) { document.getElementById('rule-rep-2').classList.add('green-active'); await sleepGlobal(200); document.getElementById('rep-exec').classList.add('show');
+            } else if (s4Step === 2) { document.getElementById('rule-rep-3').classList.add('green-active'); await sleepGlobal(200); document.getElementById('rep-body').classList.add('show');
+            } else if (s4Step === 3) { document.getElementById('rule-rep-4').classList.add('green-active'); await sleepGlobal(200); document.getElementById('rep-data').classList.add('show'); }
+            desc.style.opacity = 0; setTimeout(() => { desc.innerHTML = s4Data[s4Step].txt; desc.style.opacity = 1; isAnimating = false; }, 300); 
+        }
+
+        async function runReport2Step() {
+            if (isAnimating) return; isAnimating = true; s5Step++; const desc = document.getElementById('s5-desc'); 
+            for(let i=1; i<=4; i++) { document.getElementById('rule-rep2-'+i).classList.remove('blue-active'); }
+            if (s5Step === 0) { document.getElementById('rule-rep2-1').classList.add('blue-active'); await sleepGlobal(200); document.getElementById('rep2-rag').classList.add('show');
+            } else if (s5Step === 1) { document.getElementById('rule-rep2-2').classList.add('blue-active'); await sleepGlobal(200); document.getElementById('rep2-miles').classList.add('show');
+            } else if (s5Step === 2) { document.getElementById('rule-rep2-3').classList.add('blue-active'); await sleepGlobal(200); document.getElementById('rep2-risk').classList.add('show');
+            } else if (s5Step === 3) { document.getElementById('rule-rep2-4').classList.add('blue-active'); await sleepGlobal(200); document.getElementById('rep2-actions').classList.add('show'); }
+            desc.style.opacity = 0; setTimeout(() => { desc.innerHTML = s5Data[s5Step].txt; desc.style.opacity = 1; isAnimating = false; }, 300); 
+        }
+
+        async function runTemplateStep() {
+            if (isAnimating) return; isAnimating = true; s6Step++; const desc = document.getElementById('s6-desc'); 
+            for(let i=1; i<=4; i++) { document.getElementById('rule-tpl-'+i).classList.remove('gold-active'); }
+            if (s6Step === 0) { 
+                document.getElementById('rule-tpl-1').classList.add('gold-active'); await sleepGlobal(200); document.getElementById('tpl-brand').classList.add('show');
+            } else if (s6Step === 1) { 
+                document.getElementById('rule-tpl-2').classList.add('gold-active'); await sleepGlobal(200); document.getElementById('tpl-layout').classList.add('show');
+            } else if (s6Step === 2) { 
+                document.getElementById('rule-tpl-3').classList.add('gold-active'); await sleepGlobal(200); document.getElementById('tpl-placeholders').classList.add('show');
+            } else if (s6Step === 3) { 
+                document.getElementById('rule-tpl-4').classList.add('gold-active'); await sleepGlobal(200); 
+                document.getElementById('ph-box-1').classList.add('filled');
+                document.getElementById('ph-box-2').classList.add('filled');
+                document.getElementById('ph-box-3').classList.add('filled');
+                document.getElementById('ph-title').innerText = "Q4 Marketing Strategy";
+                document.getElementById('ph-sub').innerText = "November 10, 2026 | Marketing Dept";
+                document.getElementById('ph-body').innerText = "This document outlines the strategic initiatives for the upcoming quarter. All formatting adheres to the corporate identity guidelines automatically.";
+            }
+            desc.style.opacity = 0; setTimeout(() => { desc.innerHTML = s6Data[s6Step].txt; desc.style.opacity = 1; isAnimating = false; }, 300); 
+        }
+
+        // NAVIGATION CONTROLLER
+        function nextSlide() {
+            if (isAnimating) return;
+            if (currentSlide === 1 && s1Step < s1Data.length - 1) { runCVStep(); return; }
+            if (currentSlide === 2 && s2Step < s2Data.length - 1) { runLetterStep(); return; }
+            if (currentSlide === 3 && s3Step < s3Data.length - 1) { runModLetterStep(); return; }
+            if (currentSlide === 4 && s4Step < s4Data.length - 1) { runReportStep(); return; }
+            if (currentSlide === 5 && s5Step < s5Data.length - 1) { runReport2Step(); return; }
+            if (currentSlide === 6 && s6Step < s6Data.length - 1) { runTemplateStep(); return; }
+            
+            if (currentSlide < slides.length - 1) { currentSlide++; updateSlides(); }
+        }
+
+        function prevSlide() { 
+            if (isAnimating) return;
+            if (currentSlide > 0) { currentSlide--; updateSlides(); } 
+        }
+
+        document.addEventListener('keydown', (e) => { 
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide(); 
+            else if (e.key === 'ArrowLeft') prevSlide(); 
+        });
+        
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>
